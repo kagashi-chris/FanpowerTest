@@ -1,0 +1,27 @@
+/*
+--- 01 Typography system
+
+--- 02 Colors
+
+Primary: #555
+Tints:
+Shades:
+Accents:
+Greys:#333,#444,#555
+
+*/
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  line-height: 1;
+  font-weight: 400;
+  color: #555;
+  position: relative;
+  background-color: #555;
+}

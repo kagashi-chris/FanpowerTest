@@ -1,0 +1,46 @@
+.player_stat {
+  display: flex;
+
+  border: 2px solid black;
+  margin-top: 2rem;
+  height: 8rem;
+  width: 90%;
+}
+
+.score {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.player_order {
+  width: 5rem;
+  height: 100%;
+  text-align: center;
+  background-color: antiquewhite;
+}
+
+.player_name {
+  width: 20rem;
+}
+
+.player_name_input {
+  line-height: 5rem;
+  text-align: center;
+}
+
+.total_score {
+  width: 10rem;
+}
+
+.row_1 {
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  background-color: #333;
+  color: white;
+}
+
+.border_right {
+  border-right: 2px solid #333;
+}
