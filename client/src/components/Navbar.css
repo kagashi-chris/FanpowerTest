@@ -1,0 +1,16 @@
+.nav_bar {
+  width: 100%;
+  height: 10rem;
+  background-color: #291535;
+}
+
+.logo_container {
+  padding: 1rem;
+  width: 30rem;
+  height: 30rem;
+}
+
+#main_logo {
+  vertical-align: middle;
+  width: 100%;
+}

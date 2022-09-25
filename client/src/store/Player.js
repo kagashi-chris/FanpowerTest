@@ -29,14 +29,31 @@ export const playerEndTurn = () => ({
 const initialState = {
   //each player will have a name, total score, an array of pins knocked per frame per shot, and score for each frame
   players: [],
+  playerNames: [],
+  playerTotalScores: [],
+  playerFrames: [],
+  playerScorePerFrame: [],
   currentPlayerTurn: 0,
   currentFrame: 0,
+  gameStarted: false,
 };
 
 export default function playerReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_PLAYER:
-      return { ...state, players: [...state.players, action.payload.player] };
+      return {
+        ...state,
+        playerNames: [...state.playerNames, action.payload.player.name],
+        playerTotalScores: [
+          ...state.playerTotalScores,
+          action.payload.player.totalScore,
+        ],
+        playerFrames: [...state.playerFrames, action.payload.player.frames],
+        playerScorePerFrame: [
+          ...state.playerScorePerFrame,
+          action.payload.player.frameScore,
+        ],
+      };
     /*
       will cycle through player index whenever end turn button is pressed. whenever it reaches the beginning 
       player index again. it will increment current frame.
@@ -44,17 +61,23 @@ export default function playerReducer(state = initialState, action) {
     case PLAYER_END_TURN:
       let newPlayer;
       let newFrame = state.currentFrame;
-      if (state.currentPlayerTurn + 1 > state.players.length - 1) {
+      if (state.players.length === 1) {
+        newFrame = newFrame + 1;
+      } else if (state.currentPlayerTurn + 1 > state.players.length - 1) {
         newPlayer = 0;
         //will move to next frame if it cycled through all the players
-        newFrame = state.currentFrame + 1;
+        newFrame++;
       } else {
         newPlayer = state.currentPlayerTurn + 1;
       }
-      console.log(state.players);
-      return { ...state, currentPlayerTurn: newPlayer, currentFrame: newFrame };
+      return { ...state, currentFrame: newFrame, currentPlayerTurn: newPlayer };
     case ADJUST_PLAYER_SCORE:
-      return {};
+      console.log("score adjusted");
+      const updatedPlayers = state.players;
+      updatedPlayers[action.payload.playerIdx].frameScore[
+        action.payload.scoreIdx
+      ] = action.payload.score;
+      return { ...state, players: updatedPlayers };
     case LOAD_CURRENT_PLAYER_STAT:
       return {};
     default:

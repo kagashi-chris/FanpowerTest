@@ -4,8 +4,15 @@ import "./PlayerStat.css";
 import { connect } from "react-redux";
 import { playerEndTurn, adjustPlayerScore } from "../store/Player";
 
-const PlayerStat = ({ playerData, playerIdx, playerEndTurn, playerTurn }) => {
+const PlayerStat = ({
+  playerData,
+  playerIdx,
+  playerEndTurn,
+  playerTurn,
+  adjustPlayerScore,
+}) => {
   const handleEndTurn = () => {
+    console.log("turn end handling");
     adjustPlayerScore(0, 0, 30);
     playerEndTurn();
   };
