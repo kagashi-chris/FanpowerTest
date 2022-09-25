@@ -5,7 +5,7 @@ import { createLogger } from "redux-logger";
 import playerReducer from "./Player";
 
 const reducer = combineReducers({
-  player: playerReducer,
+  players: playerReducer,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))

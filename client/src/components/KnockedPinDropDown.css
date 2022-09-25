@@ -1,0 +1,14 @@
+select {
+  width: 100%;
+  height: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: "";
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+select::-ms-expand {
+  display: none;
+}

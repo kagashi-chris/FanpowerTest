@@ -1,4 +1,20 @@
 .frame {
-  background-color: red;
   width: 100%;
+}
+
+.pins_knocked {
+  width: 2rem;
+  height: 2rem;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.pins_knocked_container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.frame_score {
+  font-size: 2.4rem;
+  text-align: center;
 }

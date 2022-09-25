@@ -1,43 +1,68 @@
-import * as React from "react";
+import React, { useState } from "react";
 import "./BowlingSheet.css";
 import PlayerStat from "./PlayerStat";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 import { List, ListItemButton, ListItem, ListItemText } from "@mui/material";
+import { connect } from "react-redux";
+import { addPlayer } from "../store/Player";
 
-export default function BowlingSheet() {
+const BowlingSheet = ({ players, addPlayer }) => {
   const maxPlayers = 4;
-  const [players, setPlayers] = React.useState([]);
-  const [currentPlayerTurn, setCurrentPlayerTurn] = React.useState(0);
+  const [numPlayers, setNumPlayers] = useState(0);
+  const [currentPlayerName, setCurrentPlayerName] = useState("");
 
   const handleAddPlayer = () => {
-    setPlayers([
-      ...players,
-      {
-        name: `New Player ${players.length + 1}`,
-        pinsKnockedPerRound: [[], [], [], [], [], [], [], [], [], []],
-        scorePerRound: [],
-      },
-    ]);
+    const newPlayer = {
+      name:
+        currentPlayerName === ""
+          ? "Player " + (numPlayers + 1)
+          : currentPlayerName,
+      totalScore: 0,
+      frames: [[], [], [], [], [], [], [], [], [], []],
+      frameScore: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+    };
+    setNumPlayers(numPlayers + 1);
+    addPlayer(newPlayer);
+    setCurrentPlayerName("");
+  };
+
+  const handleNameChange = (value) => {
+    setCurrentPlayerName(value);
   };
 
   return (
     <div id="bowling_sheet">
       <div>Fanpower Bowling Sheet</div>
-      {/* create PlayerStat components depending on how many players are in the players param. Max 4*/}
+      {/* create PlayerStat components depending on how many players are in the players state. Max 4*/}
       <List>
-        {players.map((user, idx) => {
-          return <PlayerStat />;
+        {players.map((player, idx) => {
+          return <PlayerStat key={idx} playerData={player} playerIdx={idx} />;
         })}
         {/* add a new player whenever the + icon is pressed */}
         {players.length < maxPlayers ? (
-          <ListItemButton onClick={() => handleAddPlayer()}>
-            <AddCircleIcon />
-            <ListItemText>ADD PLAYER</ListItemText>
-          </ListItemButton>
+          <ListItem>
+            <p className="add_player">Add Player</p>
+            <input
+              type="text"
+              value={currentPlayerName}
+              onChange={(event) => handleNameChange(event.target.value)}
+            />
+            <AddBoxIcon onClick={() => handleAddPlayer()} />
+          </ListItem>
         ) : (
           ""
         )}
       </List>
     </div>
   );
-}
+};
+
+const mapStateToProps = (state) => {
+  return { players: state.players.players };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return { addPlayer: (player) => dispatch(addPlayer(player)) };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BowlingSheet);

@@ -16,8 +16,15 @@
 .player_order {
   width: 5rem;
   height: 100%;
+
+  background-color: #555;
+  color: rgb(231, 231, 231);
+  font-size: 3.5rem;
+}
+
+.player_order p {
   text-align: center;
-  background-color: antiquewhite;
+  line-height: 7.2rem;
 }
 
 .player_name {
@@ -31,6 +38,9 @@
 
 .total_score {
   width: 10rem;
+  line-height: 5rem;
+  font-size: 2.8rem;
+  text-align: center;
 }
 
 .row_1 {
@@ -43,4 +53,8 @@
 
 .border_right {
   border-right: 2px solid #333;
+}
+
+.hide {
+  display: none;
 }
