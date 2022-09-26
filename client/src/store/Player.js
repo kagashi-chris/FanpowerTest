@@ -86,6 +86,16 @@ export default function playerReducer(state = initialState, action) {
       player index again. it will increment current frame.
       */
     case PLAYER_END_TURN:
+      const playerFrame =
+        state.players[state.currentPlayerTurn].frames[state.currentFrame];
+      if (
+        playerFrame[0] === null ||
+        (playerFrame[1] === null && playerFrame[0] !== "10")
+      ) {
+        alert("Invalid Input");
+        return { ...state };
+      }
+
       let newPlayer = state.currentPlayerTurn;
       if (state.players.length === 1) {
         newPlayer = 0;
@@ -97,6 +107,7 @@ export default function playerReducer(state = initialState, action) {
           state.currentFrame = state.currentFrame + 1;
         }
       }
+      state.gameStarted = true;
       return { ...state, currentPlayerTurn: newPlayer };
     case ADJUST_PLAYER_SCORE:
       const updatedPlayers = state.players;

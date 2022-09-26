@@ -12,7 +12,7 @@ const PlayerStat = ({
   adjustPlayerScore,
 }) => {
   const handleEndTurn = () => {
-    adjustPlayerScore(0, 0, 30);
+    // adjustPlayerScore(0, 0, 30);
     playerEndTurn();
   };
 
