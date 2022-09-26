@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Frame from "./Frame";
 import "./PlayerStat.css";
 import { connect } from "react-redux";
@@ -12,7 +12,6 @@ const PlayerStat = ({
   adjustPlayerScore,
 }) => {
   const handleEndTurn = () => {
-    console.log("turn end handling");
     adjustPlayerScore(0, 0, 30);
     playerEndTurn();
   };
@@ -29,15 +28,7 @@ const PlayerStat = ({
         </div>
         <div className="score">
           {playerData.frames.map((frame, idx) => {
-            return (
-              <Frame
-                key={idx}
-                frameData={frame}
-                idx={idx}
-                playerIdx={playerIdx}
-                frameTotal={playerData.frameScore[idx]}
-              />
-            );
+            return <Frame key={idx} idx={idx} playerIdx={playerIdx} />;
           })}
         </div>
         <div>

@@ -4,7 +4,7 @@ import BowlingSheet from "./BowlingSheet";
 //high level component
 const FanpowerBowling = () => {
   return (
-    <div>
+    <div className="bowling_sheet_container">
       <BowlingSheet />
     </div>
   );
