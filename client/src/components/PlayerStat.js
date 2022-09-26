@@ -17,7 +17,12 @@ const PlayerStat = ({
   };
 
   return (
-    <>
+    <div className="margin_bottom">
+      {playerIdx === playerTurn ? (
+        <button onClick={() => handleEndTurn()}>End Turn</button>
+      ) : (
+        ""
+      )}
       <div className="player_stat">
         <div className="player_order border_right">
           <p>{playerIdx + 1}</p>
@@ -36,12 +41,7 @@ const PlayerStat = ({
           <div className="total_score">{playerData.totalScore}</div>
         </div>
       </div>
-      {playerIdx === playerTurn ? (
-        <button onClick={() => handleEndTurn()}>End Turn</button>
-      ) : (
-        ""
-      )}
-    </>
+    </div>
   );
 };
 

@@ -19,16 +19,16 @@ const BowlingSheet = ({ players, addPlayer, gameStarted }) => {
           : currentPlayerName,
       totalScore: 0,
       frames: [
-        [-1, -1],
-        [-1, -1],
-        [-1, -1],
-        [-1, -1],
-        [-1, -1],
-        [-1, -1],
-        [-1, -1],
-        [-1, -1],
-        [-1, -1],
-        [-1, -1, -1],
+        [null, null],
+        [null, null],
+        [null, null],
+        [null, null],
+        [null, null],
+        [null, null],
+        [null, null],
+        [null, null],
+        [null, null],
+        [null, null, null],
       ],
       frameScore: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
     };
@@ -43,7 +43,6 @@ const BowlingSheet = ({ players, addPlayer, gameStarted }) => {
 
   return (
     <div id="bowling_sheet">
-      <div>Fanpower Bowling Sheet</div>
       {/* create PlayerStat components depending on how many players are in the players state. Max 4*/}
       <List>
         {players.map((player, idx) => {

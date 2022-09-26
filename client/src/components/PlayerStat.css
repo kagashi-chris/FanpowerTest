@@ -1,8 +1,10 @@
+.margin_bottom {
+  margin-bottom: 2rem;
+}
+
 .player_stat {
   display: flex;
-
   border: 2px solid black;
-  margin-top: 2rem;
   height: 8rem;
   width: 90%;
 }

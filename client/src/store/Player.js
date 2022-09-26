@@ -30,14 +30,14 @@ export const playerEndTurn = () => ({
 export const adjustPlayerPinsKnocked = (
   playerIdx,
   frameIdx,
-  rollNumber,
+  dropDownPosition,
   value
 ) => ({
   type: ADJUST_PLAYER_PINS_KNOCKED,
   payload: {
     playerIdx,
     frameIdx,
-    rollNumber,
+    dropDownPosition,
     value,
   },
 });
@@ -54,10 +54,30 @@ const initialState = {
 export default function playerReducer(state = initialState, action) {
   switch (action.type) {
     case ADJUST_PLAYER_PINS_KNOCKED:
-      state.players[action.payload.playerIdx].frames[action.payload.frameIdx][
-        action.payload.rollNumber
-      ] = action.payload.value;
-      console.log(state);
+      if (action.payload.value === "") {
+        state.players[action.payload.playerIdx].frames[action.payload.frameIdx][
+          action.payload.dropDownPosition
+        ] = null;
+      } else {
+        console.log("this got run");
+        console.log("dropDownPosition", action.payload.dropDownPosition);
+        console.log("value", action.payload.value);
+        state.players[action.payload.playerIdx].frames[action.payload.frameIdx][
+          action.payload.dropDownPosition
+        ] = action.payload.value;
+      }
+
+      if (action.payload.dropDownPosition === 0) {
+        state.players[action.payload.playerIdx].frames[
+          action.payload.frameIdx
+        ][1] = null;
+        if (action.payload.frameIdx === 9) {
+          state.players[action.payload.playerIdx].frames[
+            action.payload.frameIdx
+          ][2] = null;
+        }
+      }
+
       return { ...state };
     case ADD_PLAYER:
       return { ...state, players: [...state.players, action.payload.player] };
