@@ -83,6 +83,11 @@ const BowlingSheet = ({
         )}
         <button
           className="save_game_score_btn"
+          style={
+            game.gameOver === false
+              ? { pointerEvents: "none", opacity: "0.4" }
+              : {}
+          }
           onClick={() => {
             handleSaveDataToDatabase(game);
           }}
