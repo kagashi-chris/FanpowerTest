@@ -1,5 +1,4 @@
 const ADD_PLAYER = "ADD_PLAYER";
-const ADJUST_PLAYER_SCORE = "ADJUST_PLAYER_SCORE";
 const LOAD_CURRENT_PLAYER_STAT = "LOAD_CURRENT_PLAYER_STAT";
 const PLAYER_END_TURN = "PLAYER_END_TURN";
 const ADJUST_PLAYER_PINS_KNOCKED = "ADJUST_PLAYER_PINGS_KNOCKED";
@@ -7,9 +6,6 @@ const ADJUST_PLAYER_PINS_KNOCKED = "ADJUST_PLAYER_PINGS_KNOCKED";
 export const addPlayer = (player) => ({
   type: ADD_PLAYER,
   payload: { player },
-});
-export const adjustPlayerScore = () => ({
-  type: ADJUST_PLAYER_SCORE,
 });
 export const loadCurrentPlayerStat = (playerIdx) => ({
   type: LOAD_CURRENT_PLAYER_STAT,
@@ -79,8 +75,10 @@ const isStrike = (currentTotal, frame, i, totalNumbersAdded) => {
   if (i === 8 && totalNumbersAdded !== 1) {
     return currentTotal + Number(frame[i + 1][0]) + Number(frame[i + 1][1]);
   }
-  if (Number(frame[i + 1][0]) !== 10) {
+  if (Number(frame[i + 1][0]) !== 10 && totalNumbersAdded !== 1) {
     return currentTotal + Number(frame[i + 1][0]) + Number(frame[i + 1][1]);
+  } else if (Number(frame[i + 1][0]) !== 10 && totalNumbersAdded === 1) {
+    return currentTotal + Number(frame[i + 1][0]);
   }
   if (frame[i + 1][0] === "10") {
     return isStrike(currentTotal + 10, frame, i + 1, totalNumbersAdded + 1);
@@ -175,15 +173,6 @@ export default function playerReducer(state = initialState, action) {
         currentPlayerTurn: newPlayer,
         players: updatePlayer,
       };
-    case ADJUST_PLAYER_SCORE:
-      const currentPlayer = state.currentPlayerTurn;
-      const currentScoreIdx = state.players[currentPlayer].currentScoreIdx;
-      const newPlayers = [...state.players];
-
-      while (currentScoreIdx < state.players[currentPlayer].frames.length) {
-        break;
-      }
-      return { ...state, players: newPlayers };
 
     case LOAD_CURRENT_PLAYER_STAT:
       return {};

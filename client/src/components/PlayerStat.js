@@ -2,14 +2,14 @@ import React from "react";
 import Frame from "./Frame";
 import "./PlayerStat.css";
 import { connect } from "react-redux";
-import { playerEndTurn, adjustPlayerScore } from "../store/Player";
+import { playerEndTurn } from "../store/Player";
 
 const PlayerStat = ({
   playerData,
   playerIdx,
   playerEndTurn,
   playerTurn,
-  adjustPlayerScore,
+  players,
 }) => {
   const handleEndTurn = () => {
     playerEndTurn();
@@ -17,7 +17,7 @@ const PlayerStat = ({
 
   return (
     <div className="margin_bottom">
-      {playerIdx === playerTurn ? (
+      {playerIdx === playerTurn && players.gameOver === false ? (
         <button onClick={() => handleEndTurn()}>End Turn</button>
       ) : (
         ""
@@ -37,7 +37,9 @@ const PlayerStat = ({
         </div>
         <div>
           <div className="row_1">Total Score</div>
-          <div className="total_score">{playerData.totalScore}</div>
+          <div className="total_score">
+            {players.players[playerIdx].frameScore[9]}
+          </div>
         </div>
       </div>
     </div>
@@ -45,14 +47,15 @@ const PlayerStat = ({
 };
 
 const mapStateToProps = (state) => {
-  return { playerTurn: state.players.currentPlayerTurn };
+  return {
+    playerTurn: state.players.currentPlayerTurn,
+    players: state.players,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     playerEndTurn: () => dispatch(playerEndTurn()),
-    adjustPlayerScore: (playerIdx, scoreIdx, score) =>
-      dispatch(adjustPlayerScore(playerIdx, scoreIdx, score)),
   };
 };
 
