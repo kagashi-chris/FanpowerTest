@@ -107,7 +107,7 @@ const isSpare = (currentTotal, frame, i) => {
 export const createPlayerScores = (playerScores) => {
   return async (dispatch) => {
     try {
-      await axios.post("/api/playerScores", playerScores);
+      await axios.post("/api/gameScores", playerScores);
       alert("data has been added to database");
       // dispatch(addScoresToDatabase(data));
     } catch (error) {
@@ -115,18 +115,6 @@ export const createPlayerScores = (playerScores) => {
     }
   };
 };
-
-// export const createPlayerScores = createAsyncThunk(
-//   "type/postData",
-//   async (data) => {
-//     try {
-//       const response = await axios.post("/api/playerScores", data);
-//       // return response.data;
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   }
-// );
 
 const initialState = {
   //each player will have a name, total score, an array of pins knocked per frame per shot, and score for each frame

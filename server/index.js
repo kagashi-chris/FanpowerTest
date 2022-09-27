@@ -10,6 +10,9 @@ if (process.env.NODE_ENV === "production") {
     req.sendFile(path.resolve(__dirname, "client/build", "index.html"));
   });
 }
+
+app.use("/api", require("./api"));
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
