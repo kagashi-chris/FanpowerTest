@@ -2,6 +2,7 @@ const ADD_PLAYER = "ADD_PLAYER";
 const LOAD_CURRENT_PLAYER_STAT = "LOAD_CURRENT_PLAYER_STAT";
 const PLAYER_END_TURN = "PLAYER_END_TURN";
 const ADJUST_PLAYER_PINS_KNOCKED = "ADJUST_PLAYER_PINGS_KNOCKED";
+const CHECK_GAME_OVER = "CHECK_GAME_OVER";
 
 export const addPlayer = (player) => ({
   type: ADD_PLAYER,
@@ -13,6 +14,8 @@ export const loadCurrentPlayerStat = (playerIdx) => ({
     playerIdx,
   },
 });
+
+export const checkGameOver = () => ({ type: CHECK_GAME_OVER });
 
 export const playerEndTurn = () => ({
   type: PLAYER_END_TURN,
@@ -98,6 +101,7 @@ const initialState = {
   currentPlayerNumRolls: 0,
   gameStarted: false,
   gameOver: false,
+  winnerIdx: -1,
 };
 
 export default function playerReducer(state = initialState, action) {
@@ -173,9 +177,34 @@ export default function playerReducer(state = initialState, action) {
         currentPlayerTurn: newPlayer,
         players: updatePlayer,
       };
+    case CHECK_GAME_OVER:
+      const currentFrame = state.currentFrame;
+      const currentPlayerTurn = state.currentPlayerTurn;
+      let updatedGameOver = state.gameOver;
+      let updatedWinnerIdx = state.winnerIdx;
+      if (currentFrame === 10 && currentPlayerTurn === 0) {
+        updatedGameOver = true;
+        updatedWinnerIdx = 0;
 
+        for (let i = 1; i < state.players.length; i++) {
+          if (
+            Number(state.players[i].frameScore[9]) >
+            Number(state.players[updatedWinnerIdx].frameScore[9])
+          ) {
+            updatedWinnerIdx = i;
+          }
+        }
+        setTimeout(() => {
+          alert(`${state.players[updatedWinnerIdx].name} WINS!!`);
+        }, 500);
+      }
+      return {
+        ...state,
+        gameOver: updatedGameOver,
+        winnerIdx: updatedWinnerIdx,
+      };
     case LOAD_CURRENT_PLAYER_STAT:
-      return {};
+      return { ...state, winnerIdx: updatedWinnerIdx };
     default:
       return state;
   }

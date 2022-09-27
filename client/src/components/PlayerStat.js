@@ -2,7 +2,7 @@ import React from "react";
 import Frame from "./Frame";
 import "./PlayerStat.css";
 import { connect } from "react-redux";
-import { playerEndTurn } from "../store/Player";
+import { playerEndTurn, checkGameOver } from "../store/Player";
 
 const PlayerStat = ({
   playerData,
@@ -10,10 +10,19 @@ const PlayerStat = ({
   playerEndTurn,
   playerTurn,
   players,
+  checkGameOver,
 }) => {
+  // const [displayedWin, setDiplayedWin] = useState(false);
   const handleEndTurn = () => {
     playerEndTurn();
+    checkGameOver();
   };
+
+  // useEffect(() => {
+  //   if (players.gameOver === true && displayedWin === false) {
+  //     setDiplayedWin(true);
+  //   }
+  // }, [players, displayedWin]);
 
   return (
     <div className="margin_bottom">
@@ -56,6 +65,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     playerEndTurn: () => dispatch(playerEndTurn()),
+    checkGameOver: () => dispatch(checkGameOver()),
   };
 };
 
