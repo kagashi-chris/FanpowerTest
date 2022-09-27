@@ -1,9 +1,12 @@
+import axios from "axios";
+
 const ADD_PLAYER = "ADD_PLAYER";
 const LOAD_CURRENT_PLAYER_STAT = "LOAD_CURRENT_PLAYER_STAT";
 const PLAYER_END_TURN = "PLAYER_END_TURN";
 const ADJUST_PLAYER_PINS_KNOCKED = "ADJUST_PLAYER_PINGS_KNOCKED";
 const CHECK_GAME_OVER = "CHECK_GAME_OVER";
 const RESET_GAME = "RESET_GAME";
+const ADD_PLAYERS_SCORE_TO_DATABASE = "ADD_PLAYERS_SCORE_TO_DATABASE";
 
 export const addPlayer = (player) => ({
   type: ADD_PLAYER,
@@ -14,6 +17,11 @@ export const loadCurrentPlayerStat = (playerIdx) => ({
   payload: {
     playerIdx,
   },
+});
+
+export const addScoresToDatabase = (players) => ({
+  type: ADD_PLAYERS_SCORE_TO_DATABASE,
+  payload: { players },
 });
 
 export const resetGame = () => ({ type: RESET_GAME });
@@ -95,6 +103,30 @@ const isSpare = (currentTotal, frame, i) => {
   if (frame[i + 1][0] === null) return null;
   return (currentTotal += Number(frame[i + 1][0]) + 10);
 };
+
+export const createPlayerScores = (playerScores) => {
+  return async (dispatch) => {
+    try {
+      await axios.post("/api/playerScores", playerScores);
+      alert("data has been added to database");
+      // dispatch(addScoresToDatabase(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+// export const createPlayerScores = createAsyncThunk(
+//   "type/postData",
+//   async (data) => {
+//     try {
+//       const response = await axios.post("/api/playerScores", data);
+//       // return response.data;
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   }
+// );
 
 const initialState = {
   //each player will have a name, total score, an array of pins knocked per frame per shot, and score for each frame
@@ -210,6 +242,9 @@ export default function playerReducer(state = initialState, action) {
       return { ...state, winnerIdx: updatedWinnerIdx };
     case RESET_GAME:
       return { ...initialState };
+    case ADD_PLAYERS_SCORE_TO_DATABASE:
+      console.log("we in here!");
+      return { ...state };
     default:
       return state;
   }

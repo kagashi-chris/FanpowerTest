@@ -78,7 +78,9 @@ const KnockedPinDropDown = ({
       }}
       ref={optionSelect}
       style={disable === true ? { pointerEvents: "none", opacity: "0.4" } : {}}
-      value={players.players[playerIdx].frames[frameIdx][dropDownPosition]}
+      value={
+        players.players[playerIdx].frames[frameIdx][dropDownPosition] || ""
+      }
     >
       <option value={null}> </option>
       {numsLeft > 0 ? <option value={0}>0</option> : ""}

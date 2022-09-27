@@ -14,3 +14,10 @@
 .add_player {
   padding-right: 2rem;
 }
+
+.save_game_score_btn {
+  position: absolute;
+  width: 10rem;
+  height: 4rem;
+  right: 5rem;
+}

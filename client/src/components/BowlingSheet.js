@@ -4,9 +4,16 @@ import PlayerStat from "./PlayerStat";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { List, ListItem } from "@mui/material";
 import { connect } from "react-redux";
-import { addPlayer, resetGame } from "../store/Player";
+import { addPlayer, resetGame, createPlayerScores } from "../store/Player";
 
-const BowlingSheet = ({ players, addPlayer, gameStarted, resetGame }) => {
+const BowlingSheet = ({
+  players,
+  addPlayer,
+  gameStarted,
+  resetGame,
+  game,
+  createPlayerScores,
+}) => {
   const maxPlayers = 4;
   const [numPlayers, setNumPlayers] = useState(0);
   const [currentPlayerName, setCurrentPlayerName] = useState("");
@@ -41,6 +48,10 @@ const BowlingSheet = ({ players, addPlayer, gameStarted, resetGame }) => {
     setCurrentPlayerName(value);
   };
 
+  const handleSaveDataToDatabase = (data) => {
+    createPlayerScores(data);
+  };
+
   return (
     <div id="bowling_sheet">
       {/* create PlayerStat components depending on how many players are in the players state. Max 4*/}
@@ -70,6 +81,14 @@ const BowlingSheet = ({ players, addPlayer, gameStarted, resetGame }) => {
         ) : (
           ""
         )}
+        <button
+          className="save_game_score_btn"
+          onClick={() => {
+            handleSaveDataToDatabase(game);
+          }}
+        >
+          Save Game Score
+        </button>
       </List>
     </div>
   );
@@ -79,6 +98,7 @@ const mapStateToProps = (state) => {
   return {
     players: state.players.players,
     gameStarted: state.players.gameStarted,
+    game: state.players,
   };
 };
 
@@ -86,6 +106,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addPlayer: (player) => dispatch(addPlayer(player)),
     resetGame: () => dispatch(resetGame()),
+    createPlayerScores: (playerScores) =>
+      dispatch(createPlayerScores(playerScores)),
   };
 };
 
