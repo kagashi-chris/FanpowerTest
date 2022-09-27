@@ -3,6 +3,7 @@ const LOAD_CURRENT_PLAYER_STAT = "LOAD_CURRENT_PLAYER_STAT";
 const PLAYER_END_TURN = "PLAYER_END_TURN";
 const ADJUST_PLAYER_PINS_KNOCKED = "ADJUST_PLAYER_PINGS_KNOCKED";
 const CHECK_GAME_OVER = "CHECK_GAME_OVER";
+const RESET_GAME = "RESET_GAME";
 
 export const addPlayer = (player) => ({
   type: ADD_PLAYER,
@@ -14,6 +15,8 @@ export const loadCurrentPlayerStat = (playerIdx) => ({
     playerIdx,
   },
 });
+
+export const resetGame = () => ({ type: RESET_GAME });
 
 export const checkGameOver = () => ({ type: CHECK_GAME_OVER });
 
@@ -38,7 +41,7 @@ export const adjustPlayerPinsKnocked = (
 
 const updateScore = (frame, scoreArr) => {
   let currentTotal = 0;
-
+  //can probably save last updated score position and not have to recalc alot of this.
   for (let i = 0; i < frame.length - 1; i++) {
     let currentVal;
     const zeroIdxVal = Number(frame[i][0]);
@@ -205,6 +208,8 @@ export default function playerReducer(state = initialState, action) {
       };
     case LOAD_CURRENT_PLAYER_STAT:
       return { ...state, winnerIdx: updatedWinnerIdx };
+    case RESET_GAME:
+      return { ...initialState };
     default:
       return state;
   }
