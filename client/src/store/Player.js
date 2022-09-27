@@ -104,12 +104,12 @@ const isSpare = (currentTotal, frame, i) => {
   return (currentTotal += Number(frame[i + 1][0]) + 10);
 };
 
-export const createPlayerScores = (playerScores) => {
+export const createPlayerScores = (gameScores) => {
   return async (dispatch) => {
     try {
-      await axios.post("/api/gameScores", playerScores);
+      console.log("stuff i'm putting in ", gameScores);
+      await axios.post("/api/gameScores", gameScores);
       alert("data has been added to database");
-      // dispatch(addScoresToDatabase(data));
     } catch (error) {
       console.error(error);
     }
@@ -121,7 +121,6 @@ const initialState = {
   players: [],
   currentPlayerTurn: 0,
   currentFrame: 0,
-  currentPlayerNumRolls: 0,
   gameStarted: false,
   gameOver: false,
   winnerIdx: -1,

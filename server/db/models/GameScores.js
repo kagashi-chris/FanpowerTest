@@ -1,16 +1,31 @@
 const Sequelize = require("sequelize");
 const db = require("../db");
-const DataTypes = require("sequelize/lib/data-types");
 
-const GameScores = db.define("gameScores", {
+const GameScores = db.define("gamescores", {
   winnerIdx: {
     type: Sequelize.INTEGER,
-    allowNull: false,
   },
-  // players: {
-  //   type: Sequelize.ARRAY(),
-  //   allowNull: false,
-  // },
+  gameOver: {
+    type: Sequelize.BOOLEAN,
+  },
+  gameStarted: {
+    type: Sequelize.BOOLEAN,
+  },
+  currentPlayerTurn: {
+    type: Sequelize.INTEGER,
+  },
+  currentFrame: {
+    type: Sequelize.INTEGER,
+  },
+  players: {
+    type: Sequelize.STRING,
+    get: function () {
+      return JSON.parse(this.getDataValue("myArrayField"));
+    },
+    set: function (val) {
+      return this.setDataValue("myArrayField", JSON.stringify(val));
+    },
+  },
 });
 
 module.exports = GameScores;
