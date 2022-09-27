@@ -8,13 +8,8 @@ export const addPlayer = (player) => ({
   type: ADD_PLAYER,
   payload: { player },
 });
-export const adjustPlayerScore = (playerIdx, scoreIdx, score) => ({
+export const adjustPlayerScore = () => ({
   type: ADJUST_PLAYER_SCORE,
-  payload: {
-    playerIdx,
-    scoreIdx,
-    score,
-  },
 });
 export const loadCurrentPlayerStat = (playerIdx) => ({
   type: LOAD_CURRENT_PLAYER_STAT,
@@ -42,6 +37,61 @@ export const adjustPlayerPinsKnocked = (
   },
 });
 
+const updateScore = (frame, scoreArr) => {
+  let currentTotal = 0;
+
+  for (let i = 0; i < frame.length - 1; i++) {
+    let currentVal;
+    const zeroIdxVal = Number(frame[i][0]);
+    const oneIdxVal = Number(frame[i][1]);
+    if (frame[i][0] === null) {
+      currentVal = null;
+    } else if (zeroIdxVal === 10) {
+      currentVal = isStrike(currentTotal + 10, frame, i, 0);
+    } else if (zeroIdxVal + oneIdxVal === 10) {
+      currentVal = isSpare(currentTotal, frame, i);
+    } else {
+      currentVal = zeroIdxVal + oneIdxVal + currentTotal;
+    }
+    if (currentVal !== null) {
+      scoreArr[i] = currentVal;
+      currentTotal = scoreArr[i];
+    } else {
+      break;
+    }
+  }
+  if (frame[9][0] !== null) {
+    currentTotal =
+      currentTotal +
+      Number(frame[9][0]) +
+      Number(frame[9][1]) +
+      Number(frame[9][2]);
+    scoreArr[9] = currentTotal;
+  }
+  return scoreArr;
+};
+
+const isStrike = (currentTotal, frame, i, totalNumbersAdded) => {
+  if (totalNumbersAdded === 2) return currentTotal;
+  if (frame[i + 1][0] === null) {
+    return null;
+  }
+  if (i === 8 && totalNumbersAdded !== 1) {
+    return currentTotal + Number(frame[i + 1][0]) + Number(frame[i + 1][1]);
+  }
+  if (Number(frame[i + 1][0]) !== 10) {
+    return currentTotal + Number(frame[i + 1][0]) + Number(frame[i + 1][1]);
+  }
+  if (frame[i + 1][0] === "10") {
+    return isStrike(currentTotal + 10, frame, i + 1, totalNumbersAdded + 1);
+  }
+};
+
+const isSpare = (currentTotal, frame, i) => {
+  if (frame[i + 1][0] === null) return null;
+  return (currentTotal += Number(frame[i + 1][0]) + 10);
+};
+
 const initialState = {
   //each player will have a name, total score, an array of pins knocked per frame per shot, and score for each frame
   players: [],
@@ -49,6 +99,7 @@ const initialState = {
   currentFrame: 0,
   currentPlayerNumRolls: 0,
   gameStarted: false,
+  gameOver: false,
 };
 
 export default function playerReducer(state = initialState, action) {
@@ -59,9 +110,6 @@ export default function playerReducer(state = initialState, action) {
           action.payload.dropDownPosition
         ] = null;
       } else {
-        console.log("this got run");
-        console.log("dropDownPosition", action.payload.dropDownPosition);
-        console.log("value", action.payload.value);
         state.players[action.payload.playerIdx].frames[action.payload.frameIdx][
           action.payload.dropDownPosition
         ] = action.payload.value;
@@ -95,6 +143,20 @@ export default function playerReducer(state = initialState, action) {
         alert("Invalid Input");
         return { ...state };
       }
+      if (state.currentFrame === 9) {
+        if (
+          (playerFrame[0] === "10" ||
+            Number(playerFrame[0]) + Number(playerFrame[1]) === 10) &&
+          playerFrame[2] === null
+        ) {
+          alert("Invalid Input");
+          return { ...state };
+        }
+      }
+      const p = state.players[state.currentPlayerTurn];
+      const updatePlayer = [...state.players];
+      let newScore = updateScore(p.frames, p.frameScore);
+      updatePlayer[state.currentPlayerTurn].frameScore = newScore;
 
       let newPlayer = state.currentPlayerTurn;
       if (state.players.length === 1) {
@@ -108,13 +170,20 @@ export default function playerReducer(state = initialState, action) {
         }
       }
       state.gameStarted = true;
-      return { ...state, currentPlayerTurn: newPlayer };
+      return {
+        ...state,
+        currentPlayerTurn: newPlayer,
+        players: updatePlayer,
+      };
     case ADJUST_PLAYER_SCORE:
-      const updatedPlayers = state.players;
-      updatedPlayers[action.payload.playerIdx].frameScore[
-        action.payload.scoreIdx
-      ] = action.payload.score;
-      return { ...state, players: updatedPlayers };
+      const currentPlayer = state.currentPlayerTurn;
+      const currentScoreIdx = state.players[currentPlayer].currentScoreIdx;
+      const newPlayers = [...state.players];
+
+      while (currentScoreIdx < state.players[currentPlayer].frames.length) {
+        break;
+      }
+      return { ...state, players: newPlayers };
 
     case LOAD_CURRENT_PLAYER_STAT:
       return {};

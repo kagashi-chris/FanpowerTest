@@ -30,7 +30,7 @@ const BowlingSheet = ({ players, addPlayer, gameStarted }) => {
         [null, null],
         [null, null, null],
       ],
-      frameScore: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+      frameScore: [null, null, null, null, null, null, null, null, null, null],
     };
     setNumPlayers(numPlayers + 1);
     addPlayer(newPlayer);

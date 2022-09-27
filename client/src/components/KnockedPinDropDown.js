@@ -114,7 +114,8 @@ const KnockedPinDropDown = ({
       (dropDownPosition === 2 &&
         Number(players.players[playerIdx].frames[frameIdx][1]) +
           Number(players.players[playerIdx].frames[frameIdx][0]) !==
-          10) ? (
+          10 &&
+        Number(players.players[playerIdx].frames[frameIdx][1]) !== 10) ? (
         <option
           value={
             10 -

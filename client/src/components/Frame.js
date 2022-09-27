@@ -3,7 +3,6 @@ import "./PlayerStat.css";
 import "./Frame.css";
 import KnockedPinDropDown from "./KnockedPinDropDown";
 import { connect } from "react-redux";
-import { adjustPlayerPinsKnocked } from "../store/Player";
 
 const Frame = ({ idx, frame, playerIdx, playerTurn, players }) => {
   return (
@@ -43,11 +42,7 @@ const Frame = ({ idx, frame, playerIdx, playerTurn, players }) => {
           ""
         )}
       </div>
-      <div className="frame_score">
-        {players[playerIdx].frameScore[idx] > -1
-          ? players[playerIdx].frameScore[idx]
-          : ""}
-      </div>
+      <div className="frame_score">{players[playerIdx].frameScore[idx]}</div>
     </div>
   );
 };
@@ -60,11 +55,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    adjustPlayerPinsKnocked: (playerIdx, frameIdx, rollNumber, value) =>
-      dispatch(adjustPlayerPinsKnocked(playerIdx, frameIdx, rollNumber, value)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Frame);
+export default connect(mapStateToProps)(Frame);
