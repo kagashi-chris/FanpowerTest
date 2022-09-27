@@ -4,12 +4,12 @@ const path = require("path");
 
 const PORT = process.env.PORT || 3001;
 
-app.use(express.static(path.join(__dirname, "..", "client/public")));
-
-app.use("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "client/public/index.html"));
-});
-
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("build"));
+  app.get("*", (req, res) => {
+    req.sendFile(path.resolve(__dirname, "build", "index.html"));
+  });
+}
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
