@@ -107,28 +107,28 @@ const initialState = {
 export default function playerReducer(state = initialState, action) {
   switch (action.type) {
     case ADJUST_PLAYER_PINS_KNOCKED:
+      let updatedPlayer = [...state.players];
       if (action.payload.value === "") {
-        state.players[action.payload.playerIdx].frames[action.payload.frameIdx][
+        updatedPlayer[action.payload.playerIdx].frames[action.payload.frameIdx][
           action.payload.dropDownPosition
         ] = null;
       } else {
-        state.players[action.payload.playerIdx].frames[action.payload.frameIdx][
+        updatedPlayer[action.payload.playerIdx].frames[action.payload.frameIdx][
           action.payload.dropDownPosition
         ] = action.payload.value;
       }
 
       if (action.payload.dropDownPosition === 0) {
-        state.players[action.payload.playerIdx].frames[
+        updatedPlayer[action.payload.playerIdx].frames[
           action.payload.frameIdx
         ][1] = null;
         if (action.payload.frameIdx === 9) {
-          state.players[action.payload.playerIdx].frames[
+          updatedPlayer[action.payload.playerIdx].frames[
             action.payload.frameIdx
           ][2] = null;
         }
       }
-
-      return { ...state };
+      return { ...state, players: updatedPlayer };
     case ADD_PLAYER:
       return { ...state, players: [...state.players, action.payload.player] };
     /*
