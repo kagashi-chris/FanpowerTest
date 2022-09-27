@@ -12,17 +12,10 @@ const PlayerStat = ({
   players,
   checkGameOver,
 }) => {
-  // const [displayedWin, setDiplayedWin] = useState(false);
   const handleEndTurn = () => {
     playerEndTurn();
     checkGameOver();
   };
-
-  // useEffect(() => {
-  //   if (players.gameOver === true && displayedWin === false) {
-  //     setDiplayedWin(true);
-  //   }
-  // }, [players, displayedWin]);
 
   return (
     <div className="margin_bottom">
