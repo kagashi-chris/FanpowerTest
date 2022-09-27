@@ -107,7 +107,6 @@ const isSpare = (currentTotal, frame, i) => {
 export const createPlayerScores = (gameScores) => {
   return async (dispatch) => {
     try {
-      console.log("stuff i'm putting in ", gameScores);
       await axios.post("/api/gameScores", gameScores);
       alert("data has been added to database");
     } catch (error) {
@@ -229,9 +228,6 @@ export default function playerReducer(state = initialState, action) {
       return { ...state, winnerIdx: updatedWinnerIdx };
     case RESET_GAME:
       return { ...initialState };
-    case ADD_PLAYERS_SCORE_TO_DATABASE:
-      console.log("we in here!");
-      return { ...state };
     default:
       return state;
   }
