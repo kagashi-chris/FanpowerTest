@@ -12,10 +12,10 @@ app.use(express.json());
 app.use("/api", require("./api"));
 
 app.get("/", (req, res) =>
-  res.sendFile(path.join(__dirname, "..", "../public/index.html"))
+  res.sendFile(path.join(__dirname, "..", "../build/index.html"))
 );
 
-app.use(express.static(path.join(__dirname, "..", "public")));
+app.use(express.static(path.join(__dirname, "..", "build")));
 
 app.use((req, res, next) => {
   if (path.extname(req.path).length) {
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 });
 
 app.use("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "client/public/index.html"));
+  res.sendFile(path.join(__dirname, "..", "client/build/index.html"));
 });
 
 app.use((err, req, res, next) => {
