@@ -20,7 +20,7 @@ const PlayerStat = ({
   return (
     <div className="margin_bottom">
       {playerIdx === playerTurn && players.gameOver === false ? (
-        <button onClick={() => handleEndTurn()}>End Turn</button>
+        <button className="end_turn_btn" onClick={() => handleEndTurn()}>End Turn</button>
       ) : (
         ""
       )}

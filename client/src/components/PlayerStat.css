@@ -7,6 +7,7 @@
   border: 2px solid black;
   height: 8rem;
   width: 90%;
+  margin: 0 auto;
 }
 
 .score {
@@ -59,4 +60,11 @@
 
 .hide {
   display: none;
+}
+
+.end_turn_btn {
+  position: absolute;
+  height: 8rem;
+  width: 5rem;
+  display: inline-block;
 }
