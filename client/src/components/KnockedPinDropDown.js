@@ -67,9 +67,7 @@ const KnockedPinDropDown = ({
   }, [players, dropDownPosition, frameIdx, playerIdx]);
 
   const handleOptionSelect = (value) => {
-    console.log("value", value);
     adjustPlayerPinsKnocked(playerIdx, frameIdx, dropDownPosition, value);
-    console.log(players.players[playerIdx].frames);
   };
 
   return (
