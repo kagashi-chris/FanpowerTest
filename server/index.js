@@ -1,19 +1,18 @@
-const { db } = require("../server/db");
+const path = require("path");
+const express = require("express");
+
 const PORT = process.env.PORT || 3001;
-const app = require("./app");
 
-const init = async () => {
-  try {
-    if (process.env.SEED === "true") {
-      await seed();
-    } else {
-      await db.sync();
-    }
+const app = express();
 
-    app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-  } catch (ex) {
-    console.log(ex);
-  }
-};
+app.use("/api", require("./api"));
 
-init();
+app.use(express.static(path.resolve(__dirname, "../client/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+});
+
+app.listen(PORT, () => {
+  console.log(`Server listening on ${PORT}`);
+});
